@@ -1,44 +1,58 @@
-from tkinter import *
+import tkinter as tk
 import heapq
 
 class HeapVisualizer:
-    """Class to visualize a Heap (Min-Heap by default) with insertion and deletion."""
-    def __init__(self, root):
-        self.root = root
+    def __init__(self, root_window, parent_window):
+        self.root = root_window
+        self.parent_window = parent_window
         self.root.title("Heap Tree Visualization")
-        self.root.geometry("1000x600")
+        self.root.geometry("1000x650")
         self.root.config(bg="#1e1e2e")
 
-        self.canvas = Canvas(root, width=900, height=500, bg="black")
+        self.heap = []
+
+        # Canvas
+        self.canvas = tk.Canvas(self.root, width=950, height=400, bg="black")
         self.canvas.pack(pady=20)
 
-        self.heap = []  # List representing a Min-Heap
+        # Entry
+        self.entry = tk.Entry(self.root, font=("Arial", 14))
+        self.entry.pack(pady=5)
 
-        # UI Elements
-        self.entry = Entry(root, font=("Arial", 14))
-        self.entry.pack()
+        # Button Row Frame
+        button_row = tk.Frame(self.root, bg="#1e1e2e")
+        button_row.pack(pady=10)
 
-        Button(root, text="Insert", font=("Arial", 12), bg="blue", fg="white", command=self.insert).pack(pady=5)
-        Button(root, text="Extract Min", font=("Arial", 12), bg="red", fg="white", command=self.extract_min).pack(pady=5)
-        Button(root, text="Clear Screen", font=("Arial", 12), bg="gray", fg="white", command=self.clear_screen).pack(pady=5)
+        btn_style = {"font": ("Arial", 12, "bold"), "bg": "yellow", "fg": "black", "padx": 10, "pady": 5}
 
-        self.message_label = Label(root, text="", font=("Arial", 14, "bold"), fg="white", bg="#1e1e2e")
+        tk.Button(button_row, text="Insert", command=self.insert, **btn_style).pack(side="left", padx=5)
+        tk.Button(button_row, text="Extract Min", command=self.extract_min, **btn_style).pack(side="left", padx=5)
+        tk.Button(button_row, text="Clear Screen", command=self.clear_screen, **btn_style).pack(side="left", padx=5)
+        tk.Button(button_row, text="Back to Visualize", bg="red", fg="white", font=("Arial", 12, "bold"),
+                  command=self.on_close).pack(side="left", padx=5)
+
+        # Message Label
+        self.message_label = tk.Label(self.root, text="", font=("Arial", 14, "bold"), fg="white", bg="#1e1e2e")
         self.message_label.pack(pady=10)
 
+        # Close handler
+        self.root.protocol("WM_DELETE_WINDOW", self.on_close)
+
+    def on_close(self):
+        self.root.destroy()
+        self.parent_window.deiconify()
+
     def insert(self):
-        """Insert multiple values into the heap."""
         values = self.entry.get().strip().split()
         valid_values = [int(v) for v in values if v.isdigit() and 0 <= int(v) <= 999]
-        
         if valid_values:
             for value in valid_values:
                 heapq.heappush(self.heap, value)
-            self.entry.delete(0, END)
-            self.message_label.config(text=f"Inserted {', '.join(map(str, valid_values))} into Heap")
+            self.entry.delete(0, tk.END)
+            self.message_label.config(text=f"Inserted: {', '.join(map(str, valid_values))}")
             self.animate()
 
     def extract_min(self):
-        """Extract the minimum element from the heap."""
         if self.heap:
             min_value = heapq.heappop(self.heap)
             self.message_label.config(text=f"Extracted Min: {min_value}")
@@ -47,30 +61,21 @@ class HeapVisualizer:
             self.message_label.config(text="Heap is empty.")
 
     def clear_screen(self):
-        """Clear the heap visualization and reset the heap."""
         self.heap = []
         self.canvas.delete("all")
         self.message_label.config(text="Screen Cleared.")
 
     def animate(self):
-        """Animate the heap drawing process."""
         self.canvas.delete("all")
         self.draw_heap()
         self.root.update()
 
     def draw_heap(self):
-        """Draw the heap as a complete binary tree."""
         if not self.heap:
             return
         
-        level = 0
-        index = 0
-        x_start = 450
-        y_start = 50
-        x_offset = 200
-
         positions = {}
-        queue = [(0, x_start, y_start, x_offset)]
+        queue = [(0, 475, 50, 200)]
 
         while queue:
             i, x, y, offset = queue.pop(0)
@@ -92,8 +97,8 @@ class HeapVisualizer:
             self.canvas.create_oval(x - 20, y - 20, x + 20, y + 20, fill="lightblue", outline="white")
             self.canvas.create_text(x, y, text=str(self.heap[i]), font=("Arial", 14, "bold"), fill="black")
 
-# Main execution
-if __name__ == "__main__":
-    root = Tk()
-    app = HeapVisualizer(root)
-    root.mainloop()
+# Function to be used from visualize menu
+def open_heap_visualizer(parent_window):
+    parent_window.withdraw()
+    new_window = tk.Toplevel(parent_window)
+    HeapVisualizer(new_window, parent_window)

@@ -5,7 +5,10 @@ import arrays
 from stack import StackVisualizer 
 from BST import open_bst_visualizer
 from BT import open_bt_tree_visualizer
-
+from heap_tree import open_heap_visualizer
+from avl_tree import open_avl_visualizer
+from graph import open_graph_visualizer
+from sort_gui import open_advanced_sort_visualizer
 
 
 def open_visualize(main_window):
@@ -83,11 +86,12 @@ def open_visualize(main_window):
         "Linked Lists": lambda: linkedlist1.open_linkedlist(vis_root, lambda: open_visualize(main_window)), 
         "Stacks": lambda: open_stack_visualizer(vis_root),
         "Queues": lambda: print("Opening Queues Visualization..."),
-        "AVL Tree": lambda: print("Opening AVL Tree Visualization..."),
+        "AVL Tree": lambda: open_avl_visualizer(vis_root),
         "BT Tree": lambda: open_bt_tree_visualizer(vis_root),
         "bst Tree": lambda: open_bst_visualizer(vis_root),
-        "Heap Tree": lambda: print("Opening Heap Tree Visualization..."),
-        "Graphs": lambda: print("Opening Graphs Visualization...")
+        "Heap Tree": lambda: open_heap_visualizer(vis_root),
+        "Graphs": lambda: open_graph_visualizer(vis_root),
+        "Advanced Sort": lambda: open_advanced_sort_visualizer(vis_root),
     }
 
     # Dynamically create buttons in rows (3 per row)
