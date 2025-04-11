@@ -1,4 +1,6 @@
 import tkinter as tk
+from tkinter import *
+
 from PIL import Image, ImageTk
 import linkedlist1
 import arrays
@@ -7,8 +9,9 @@ from BST import open_bst_visualizer
 from BT import open_bt_tree_visualizer
 from heap_tree import open_heap_visualizer
 from avl_tree import open_avl_visualizer
+from queue_vis import QueueVisualizer
 from graph import open_graph_visualizer
-from sort_gui import open_advanced_sort_visualizer
+from sort_gui import open_sorting_comparator
 
 
 def open_visualize(main_window):
@@ -23,6 +26,10 @@ def open_visualize(main_window):
         vis_root.destroy()
         main_window.deiconify()
 
+    # Open Queue visualizer
+    def open_queue_visualizer():
+        queue_root = Toplevel()
+        QueueVisualizer(queue_root)
     # Open Stack visualizer
     def open_stack_visualizer(parent_window):
         parent_window.withdraw()
@@ -82,16 +89,16 @@ def open_visualize(main_window):
 
     # Actions dictionary
     actions = {
-        "Arrays": lambda: arrays.open_arrays(vis_root),
+        # "Arrays": lambda: arrays.open_arrays(vis_root),
         "Linked Lists": lambda: linkedlist1.open_linkedlist(vis_root, lambda: open_visualize(main_window)), 
         "Stacks": lambda: open_stack_visualizer(vis_root),
-        "Queues": lambda: print("Opening Queues Visualization..."),
+        "Queues": lambda: open_queue_visualizer(),
         "AVL Tree": lambda: open_avl_visualizer(vis_root),
         "BT Tree": lambda: open_bt_tree_visualizer(vis_root),
         "bst Tree": lambda: open_bst_visualizer(vis_root),
         "Heap Tree": lambda: open_heap_visualizer(vis_root),
         "Graphs": lambda: open_graph_visualizer(vis_root),
-        "Advanced Sort": lambda: open_advanced_sort_visualizer(vis_root),
+        "Advanced Sort": lambda: open_sorting_comparator(vis_root),
     }
 
     # Dynamically create buttons in rows (3 per row)

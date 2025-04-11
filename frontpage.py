@@ -1,6 +1,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import visualize
+from learn_ds import open_learn_ds
 
 # Function to open visualize window
 def open_visualize_window():
@@ -58,10 +59,10 @@ button_frame = tk.Frame(overlay_frame, bg="")
 button_frame.pack(side="bottom", fill="both", expand=True, pady=40, padx=40)
 
 # Left Button (Bigger size)
-btn1 = tk.Button(button_frame, text=" Learn Data Structure and Algorithms", 
+btn1 = tk.Button(button_frame, text=" Learn Data Structure and Algorithms",command=lambda: open_learn_ds(root),
                  font=("Arial", 12, "bold"), bg="yellow", fg="black", 
                   bd=3, relief="raised", width=30, height=2)
-btn1.pack(side="left", anchor="w", padx=40)
+btn1.pack(side="left", anchor="w", padx=40,)
 
 # Right Button (Bigger size)
 btn2 = tk.Button(button_frame, text="Visualize Data Structure", 
