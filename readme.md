@@ -1,9 +1,29 @@
-steps:-
-1)pip install pillow
-install tkinter:-
-Ubuntu
-sudo apt-get install python3-tk 
-Fedora
-sudo dnf install python3-tkinter
-MacOS
-brew install python-tk
+## create a vertual enviorment
+
+    python -m venv env
+
+## activate vertual enviorment
+
+### windows
+
+    env\Scripts\activate
+
+### Ubuntu
+
+    source env/bin/activate
+
+## install pillow
+
+    pip install pillow
+
+## install tkinter:-
+### windows
+    pip install tk
+### Ubuntu
+    sudo apt-get install python3-tk 
+### MacOS
+    brew install python-tk
+
+## Final step
+
+    python frontpage.py
